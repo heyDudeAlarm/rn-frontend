@@ -1,11 +1,12 @@
 import React from "react";
-import { Image, View } from "react-native";
+import { Image, View, TouchableOpacity } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Mail, Meet, Settings } from "./TabScreens";
 import { MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
+import { Mail, Meet, Settings } from "../screens/TabScreens";
 import Alarm from "../screens/Alarm";
-import MorningCall from "../screens/MorningCall";
-import Mypage from "../screens/Mypage";
+import Record from "../screens/Record";
+import Profile from "../screens/Profile";
+import Friends from "../screens/Friends";
 
 const Tab = createBottomTabNavigator();
 const TabIcon = ({ name, size, color }) => {
@@ -19,7 +20,7 @@ const IconOcations = ({ name, size, color }) => {
 const TabNavigation = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Settings"
+      initialRouteName="Alarm"
       tabBarOptions={{ showLabel: false, activeTintColor: "#000" }}
     >
       <Tab.Screen
@@ -27,26 +28,46 @@ const TabNavigation = () => {
         component={Alarm}
         options={{
           tabBarIcon: (props) => TabIcon({ ...props, name: "alarm" }),
+          headerShown: false, //header숨기기
         }}
       />
       <Tab.Screen
         name="Record"
-        component={MorningCall}
+        component={Record}
         options={{
           tabBarIcon: (props) =>
             TabIcon({ ...props, name: "microphone-outline" }),
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="AddAlarm"
+        component={Settings}
+        options={{
+          tabBarIcon: () => {
+            return (
+              // navigator로 이동
+
+              <TouchableOpacity>
+                <Image
+                  style={{ width: 40, height: 40 }}
+                  source={require("../../assets/icons/add-alarm.png")}
+                />
+              </TouchableOpacity>
+            );
+          },
         }}
       />
       <Tab.Screen
         name="Friends"
-        component={Settings}
+        component={Friends}
         options={{
           tabBarIcon: (props) => IconOcations({ ...props, name: "person-add" }),
         }}
       />
       <Tab.Screen
         name="Home"
-        component={Mypage}
+        component={Profile}
         options={{
           tabBarIcon: (props) => IconOcations({ ...props, name: "home" }),
         }}
