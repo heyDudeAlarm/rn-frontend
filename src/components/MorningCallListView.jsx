@@ -11,12 +11,13 @@ const styles = StyleSheet.create({
 const MorningCallListView = ({ itemList }) => (
   <View style={styles.container}>
     <FlatList
+      showsVerticalScrollIndicator={false}
       data={itemList}
       renderItem={({ item }) => (
         <CustomRow
-          title={item.title}
-          description={item.description}
-          image_url={item.image_url}
+          time={item.time}
+          label={item.label}
+          activate={item.activate}
         />
       )}
     />

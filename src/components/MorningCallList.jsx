@@ -3,16 +3,16 @@ import { useState } from "react";
 import { View, Text, StyleSheet, Switch } from "react-native";
 import ToggleSwitch from "rn-toggle-switch";
 
-const CustomRow = ({ title, description, image_url }) => {
+const CustomRow = ({ time, label, activate }) => {
   // switch toggle state
-  const [isEnabled, setIsEnabled] = useState(false);
+  const [isEnabled, setIsEnabled] = useState({ activate });
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   return (
     <View style={styles.container}>
       <View style={styles.container_text}>
-        <Text style={styles.title}>06:30</Text>
-        <Text style={styles.label}>heydude 프로젝트 알림</Text>
+        <Text style={styles.title}>{time}</Text>
+        <Text style={styles.label}>{label}</Text>
       </View>
       {/* <ToggleSwitch
         text={{
