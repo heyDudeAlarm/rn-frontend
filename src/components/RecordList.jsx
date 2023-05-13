@@ -7,6 +7,7 @@ import {
   Image,
   Dimensions,
 } from "react-native";
+import SendBtn from "./Button/SendBtn";
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -17,6 +18,7 @@ const RecordList = ({ name, message, profile_img }) => (
       <Text style={styles.title}>{name}</Text>
       <Text style={styles.description}>{message}</Text>
     </View>
+    <SendBtn />
   </View>
 );
 
