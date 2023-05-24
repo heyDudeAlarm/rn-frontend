@@ -2,13 +2,17 @@ import React from "react";
 import { Image, View, TouchableOpacity } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
-import { Mail, Meet, Settings } from "../screens/TabScreens";
+import {
+  NavigationContainer,
+  createNavigationContainerRef,
+} from "@react-navigation/native";
 import Alarm from "../screens/Alarm";
-import Record from "../screens/Record";
+import Record from "./Record/RecordListScreen";
 import Profile from "../screens/Profile";
 import Friends from "../screens/Friends";
 
 const Tab = createBottomTabNavigator();
+const Stack = createNavigationContainerRef();
 const TabIcon = ({ name, size, color }) => {
   return <MaterialCommunityIcons name={name} size={size} color={color} />;
 };
@@ -17,7 +21,7 @@ const IconOcations = ({ name, size, color }) => {
   return <Octicons name={name} size={size} color={color} />;
 };
 
-const TabNavigation = () => {
+const TabNavigation = ({ navigation }) => {
   return (
     <Tab.Navigator
       initialRouteName="Alarm"
@@ -42,13 +46,17 @@ const TabNavigation = () => {
       />
       <Tab.Screen
         name="AddAlarm"
-        component={Settings}
+        component={Record}
         options={{
           tabBarIcon: () => {
+            // https://jiny-dongle.tistory.com/40
             return (
               // navigator로 이동
-
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("AddAlarm");
+                }}
+              >
                 <Image
                   style={{ width: 40, height: 40 }}
                   source={require("../../assets/icons/add-alarm.png")}
@@ -63,6 +71,7 @@ const TabNavigation = () => {
         component={Friends}
         options={{
           tabBarIcon: (props) => IconOcations({ ...props, name: "person-add" }),
+          headerShown: false,
         }}
       />
       <Tab.Screen

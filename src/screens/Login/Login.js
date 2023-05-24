@@ -8,12 +8,11 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import axios from "axios";
-import GradientButton from "../components/Button/GradientButton";
-import GradientBorderButton from "../components/Button/GradientBorderButton";
+import GradientButton from "../../components/Button/GradientButton";
+import GradientBorderButton from "../../components/Button/GradientBorderButton";
 
-export default function Login() {
+export default function Login({ navigation }) {
   // node data가져오기
   const [data, setData] = useState(null);
   // useEffect(() => {
@@ -60,14 +59,14 @@ export default function Login() {
       </View>
       <View style={styles.buttons}>
         <GradientButton
-          onPress={() => alert("로그인 되었습니다.")}
+          onPress={() => navigation.navigate("TabNavigation")} //tabnavigation으로 이동
           style={styles.fillButton}
           colors={["#8C92FF", "#92FBE7"]}
           text="Login"
           textStyle={styles.buttonText}
         />
         <GradientBorderButton
-          onPress={() => alert("Button Pressed")}
+          onPress={() => navigation.navigate("Signup")}
           style={styles.visit}
           style2={styles.circleGradient}
           colors={["#8C92FF", "#92FBE7"]}

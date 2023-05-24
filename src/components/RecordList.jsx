@@ -11,7 +11,7 @@ import SendBtn from "./Button/SendBtn";
 
 const windowWidth = Dimensions.get("window").width;
 
-const RecordList = ({ name, message, profile_img }) => (
+const RecordList = ({ name, message, profile_img, navigation }) => (
   <View style={styles.container}>
     <Image src={profile_img} style={styles.photo} />
     <View style={styles.container_text}>
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   title: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: "bold",
     color: "#000",
   },
@@ -50,8 +50,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   description: {
+    width: 130,
     fontSize: 11,
     fontStyle: "italic",
+    color: "#8D8D8D",
   },
   photo: {
     height: 50,

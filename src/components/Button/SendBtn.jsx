@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet, Switch, TouchableOpacity } from "react-native";
 
-const SendBtn = () => {
+const SendBtn = ({ onPress }) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <Text style={styles.text}>SEND</Text>
     </TouchableOpacity>
   );

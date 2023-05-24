@@ -1,6 +1,6 @@
 import React from "react";
 import { View, FlatList, StyleSheet, Text } from "react-native";
-import CustomRow from "./MorningCallList";
+import CustomRow from "./RecordList";
 
 const styles = StyleSheet.create({
   container: {
@@ -8,19 +8,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const MorningCallListView = ({ itemList }) => (
+const RecordListView = ({ itemList }) => (
   <View style={styles.container}>
     <FlatList
+      showsVerticalScrollIndicator={false}
       data={itemList}
       renderItem={({ item }) => (
         <CustomRow
-          title={item.title}
-          description={item.description}
-          image_url={item.image_url}
+          name={item.name}
+          message={item.message}
+          profile_img={item.profile_img}
         />
       )}
     />
   </View>
 );
 
-export default MorningCallListView;
+export default RecordListView;

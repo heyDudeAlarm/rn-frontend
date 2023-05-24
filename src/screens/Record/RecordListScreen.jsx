@@ -1,27 +1,27 @@
 import { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, TextInput, View, Image } from "react-native";
-import RecordList from "../components/RecordListView";
+import RecordList from "../../components/RecordListView";
 
-export default function Record({ navigation }) {
+export default function RecordListScreen({ navigation }) {
   const getData = () => {
     // 서버에서 json형태로 받아옴
     return [
       {
         key: 1,
         name: "홍길동",
-        message: "오늘은 진짜 프로젝트 시작한다",
+        message: "나 이번에는 진짜 일어나서 프로젝트 한다11!!!!! 화이팅",
         profile_img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
       },
       {
         key: 2,
         name: "홍길동",
-        message: "오늘은 진짜 프로젝트 시작한다",
+        message: "오늘은 진짜 expo키고 초심지킨다",
         profile_img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
       },
       {
         key: 3,
-        name: "홍길동",
+        name: "하진",
         message: "오늘은 진짜 프로젝트 시작한다",
         profile_img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
       },
@@ -43,7 +43,12 @@ export default function Record({ navigation }) {
         </Text>
       </View>
       <View style={styles.alarms}>
-        <RecordList itemList={getData()} />
+        <RecordList
+          itemList={getData()}
+          Press={() => {
+            navigation.navigate("Record");
+          }}
+        />
       </View>
     </View>
   );

@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const RecordListView = ({ itemList }) => (
+const RecordListView = ({ itemList, props }) => (
   <View style={styles.container}>
     <FlatList
       showsVerticalScrollIndicator={false}

@@ -6,6 +6,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  item: {
+    padding: 10,
+    marginVertical: 10,
+    marginHorizontal: 16,
+  },
 });
 
 const MorningCallListView = ({ itemList }) => (

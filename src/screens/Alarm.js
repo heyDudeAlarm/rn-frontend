@@ -22,13 +22,13 @@ const getData = () => {
       key: 2,
       time: "06:30",
       label: "졸업식 날",
-      activate: false,
+      activate: true,
     },
     {
       key: 3,
       time: "06:30",
       label: "진이 생일날!",
-      activate: false,
+      activate: true,
     },
   ];
 };
@@ -54,7 +54,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    marginLeft: 18,
+    paddingLeft: 18,
+    backgroundColor: "#fff",
     // marginRight: 25,
   },
   header: {

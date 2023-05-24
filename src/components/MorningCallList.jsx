@@ -6,7 +6,7 @@ import ToggleSwitch from "rn-toggle-switch";
 const CustomRow = ({ time, label, activate }) => {
   // switch toggle state
   const [isEnabled, setIsEnabled] = useState({ activate });
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const toggleSwitch = () => setIsEnabled((activate) => !activate);
 
   return (
     <View style={styles.container}>
@@ -14,12 +14,10 @@ const CustomRow = ({ time, label, activate }) => {
         <Text style={styles.title}>{time}</Text>
         <Text style={styles.label}>{label}</Text>
       </View>
-      {/* <ToggleSwitch
+      <ToggleSwitch
         text={{
           on: "",
           off: "",
-          activeTextColor: "white",
-          inactiveTextColor: "#B7B8BA",
         }}
         color={{
           indicator: "white",
@@ -28,19 +26,20 @@ const CustomRow = ({ time, label, activate }) => {
           activeBorder: "transparent",
           inactiveBorder: "transparent",
         }}
-        active={true}
+        active={activate}
         disabled={false}
-        width={50}
-        radius={25}
+        width={15}
+        radius={12}
         onValueChange={toggleSwitch}
-      /> */}
-      <Switch
+      />
+
+      {/* <Switch
         trackColor={{ false: "#AFAFAF", true: "#6d61ff" }}
         thumbColor={isEnabled ? "#fff" : "#fff"}
         ios_backgroundColor="#3e3e3e"
         onValueChange={toggleSwitch}
         value={isEnabled}
-      />
+      /> */}
     </View>
   );
 };
@@ -51,6 +50,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 85,
     flexDirection: "row",
+    alignItems: "center",
     padding: 10,
     marginLeft: 16,
     marginRight: 16,
