@@ -4,12 +4,11 @@ import {
   Button,
   StyleSheet,
   Text,
-  TextInput,
   View,
-  TouchableOpacity,
-  ScrollView,
+  Dimensions,
 } from "react-native";
 import MorningCallListView from "../components/MorningCallListView";
+
 const getData = () => {
   return [
     {
@@ -61,7 +60,7 @@ const styles = StyleSheet.create({
   header: {
     flex: 1.5,
     justifyContent: "flex-end",
-    padding: 18,
+    padding: 12,
     marginBottom: 5,
   },
   title: {

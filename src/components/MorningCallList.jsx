@@ -1,8 +1,9 @@
 import React from "react";
 import { useState } from "react";
-import { View, Text, StyleSheet, Switch } from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import ToggleSwitch from "rn-toggle-switch";
 
+const windowWidth = Dimensions.get("window").width;
 const CustomRow = ({ time, label, activate }) => {
   // switch toggle state
   const [isEnabled, setIsEnabled] = useState({ activate });
@@ -46,14 +47,13 @@ const CustomRow = ({ time, label, activate }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: 325,
     flex: 1,
+    width: windowWidth - 48,
+    marginHorizontal: 12,
     height: 85,
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
-    marginLeft: 16,
-    marginRight: 16,
     marginTop: 8,
     marginBottom: 8,
     borderRadius: 5,
