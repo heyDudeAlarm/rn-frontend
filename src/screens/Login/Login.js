@@ -7,24 +7,46 @@ import {
   Text,
   TextInput,
   View,
+  ToastAndroid
 } from "react-native";
+import Toast from "react-native-toast-message"
 import axios from "axios";
 import GradientButton from "../../components/Button/GradientButton";
 import GradientBorderButton from "../../components/Button/GradientBorderButton";
 
 export default function Login({ navigation }) {
   // node data가져오기
-  const [data, setData] = useState(null);
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://10.96.123.85:8080/auth/login`)
-  //     .then((response) => {
-  //       setData(response.data.message); // data state를 node.js 받아온 json으로 설정함.
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // }, []);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  
+  const LoginEvent = () => {
+    const formdata = {
+      email : email,
+      password : password
+    }
+    if(!email || !password){
+      ToastAndroid.show("데이터를 입력하세요", ToastAndroid.SHORT)
+    }else{
+      axios
+      .post(`http://10.0.2.2:8082/auth/login`, JSON.stringify(formdata), {
+        headers: {
+          "Content-Type": `application/json`,
+        }
+      })
+      .then((res) => {
+        // console.log(res);
+        if(res.data["fail"]){ //로그인 실패
+          ToastAndroid.show("로그인에 실패하였습니다.", ToastAndroid.SHORT)
+        }else{ //로그인 성공
+          ToastAndroid.show("로그인 성공!", ToastAndroid.SHORT)
+          navigation.replace("TabNavigation"); //tabnavigation으로 이동
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -46,20 +68,20 @@ export default function Login({ navigation }) {
         <TextInput
           style={styles.InputStyle}
           placeholder="email"
-          name="email"
-          keyboardType="twitter"
-        />
+          onChangeText={(text)=> setEmail(text)}
+          keyboardType="email-address"
+          />
         <TextInput
           style={styles.InputStyle}
           placeholder="password"
-          name="password"
+          onChangeText={(text)=> setPassword(text)}
           secureTextEntry
         />
         {/* </form> */}
       </View>
       <View style={styles.buttons}>
         <GradientButton
-          onPress={() => navigation.navigate("TabNavigation")} //tabnavigation으로 이동
+          onPress={LoginEvent} 
           style={styles.fillButton}
           colors={["#8C92FF", "#92FBE7"]}
           text="Login"
