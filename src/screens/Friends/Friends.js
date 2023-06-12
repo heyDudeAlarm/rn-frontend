@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, Text, TextInput, View, Image } from "react-native";
-import FriendsList from "../components/FriendsListView";
+import { Button, StyleSheet, Text, TextInput, View, TouchableOpacity } from "react-native";
+import FriendsList from "../../components/FriendsListView";
+import CustomRow from "../../components/FriendsList";
 
-export default function Friends({ navigation }) {
+export default function Friends(props) {
   const getData = () => {
     // 서버에서 json형태로 받아옴
     return [
       {
         key: 1,
         name: "홍길동",
-        message: "나 이번에는 진짜 일어나서 프로젝트 한다11!!!!! 화이팅",
+        message: "김씨요.",
         profile_img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
       },
       {
@@ -22,7 +23,7 @@ export default function Friends({ navigation }) {
       {
         key: 3,
         name: "하진",
-        message: "오늘은 진짜 프로젝트 시작한다",
+        message: "김씨요.",
         profile_img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
       },
       {
@@ -33,13 +34,27 @@ export default function Friends({ navigation }) {
       },
     ];
   };
+
+  const renderItem = ({ item }) => (
+    <CustomRow
+        name={item.name}
+        message={item.message}
+        profile_img={item.profile_img}
+        onPress={props.toAskrecord}
+    />
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.explain}>친구 목록</Text>
       </View>
       <View style={styles.alarms}>
-        <FriendsList itemList={getData()} />
+        <FriendsList 
+          itemList={getData()}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+          />
       </View>
     </View>
   );
