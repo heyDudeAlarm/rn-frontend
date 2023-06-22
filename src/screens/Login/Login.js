@@ -7,30 +7,59 @@ import {
   Text,
   TextInput,
   View,
-  ToastAndroid
+  ToastAndroid,
 } from "react-native";
-import Toast from "react-native-toast-message"
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
 import GradientButton from "../../components/Button/GradientButton";
 import GradientBorderButton from "../../components/Button/GradientBorderButton";
+import * as Notifications from 'expo-notifications';
 
 export default function Login({ navigation }) {
   // node data가져오기
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   
-  const LoginEvent = () => {
+  async function registerForPushNotificationsAsync() {
+    let token;
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+  
+    if (Platform.OS === 'android') {
+      Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
+      });
+    }
+  
+    return token;
+  }
+
+const LoginEvent = () => {
+    const token = registerForPushNotificationsAsync();
     const formdata = {
-      email : email,
-      password : password
+      email : email.trim(),
+      password : password,
     }
     if(!email || !password){
       ToastAndroid.show("데이터를 입력하세요", ToastAndroid.SHORT)
     }else{
       axios
-      .post(`http://10.0.2.2:8082/auth/login`, JSON.stringify(formdata), {
+      .post(`http://13.48.25.201:8082/auth/login`, JSON.stringify(formdata), {
         headers: {
-          "Content-Type": `application/json`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
         }
       })
       .then((res) => {
@@ -38,8 +67,13 @@ export default function Login({ navigation }) {
         if(res.data["fail"]){ //로그인 실패
           ToastAndroid.show("로그인에 실패하였습니다.", ToastAndroid.SHORT)
         }else{ //로그인 성공
+          console.log(token);
           ToastAndroid.show("로그인 성공!", ToastAndroid.SHORT)
-          navigation.replace("TabNavigation"); //tabnavigation으로 이동
+          AsyncStorage.setItem('session', JSON.stringify({
+            email : res.data.email,
+            nickname : res.data.nickname,
+          })); // session에 저장
+          navigation.replace("TabNavigation", {"userdata" : res["data"]}); //tabnavigation으로 이동
         }
       })
       .catch((error) => {
@@ -82,10 +116,8 @@ export default function Login({ navigation }) {
       <View style={styles.buttons}>
         <GradientButton
           onPress={LoginEvent} 
-          style={styles.fillButton}
           colors={["#8C92FF", "#92FBE7"]}
           text="Login"
-          textStyle={styles.buttonText}
         />
         <GradientBorderButton
           onPress={() => navigation.navigate("Signup")}
@@ -126,14 +158,5 @@ const styles = StyleSheet.create({
     height: 58,
     padding: 15,
     margin: 10,
-  },
-  buttonText: {
-    textAlign: "center",
-    color: "#ffffff",
-    padding: 15,
-    marginLeft: 1,
-    marginRight: 1,
-    width: 198,
-    fontSize: 16,
   },
 });

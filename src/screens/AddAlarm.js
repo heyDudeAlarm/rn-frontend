@@ -4,6 +4,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import styled from "styled-components";
 import GradientButton from "../components/Button/GradientButton"
 import * as Notifications from 'expo-notifications';
+import {Asset} from 'expo-asset';
 
 import {
   Image,
@@ -31,6 +32,7 @@ const ListView = styled.TouchableOpacity`
 export default function AddAlarm({ navigation }) {
   const [date, setDate] = useState(new Date(1598051730000));
   const [visible, setVisible] = useState(false); // 모달 노출 여부
+  const [text, setText] = useState();
 
   const handlePicker = (event, selectedDate) => {
     setVisible(false);
@@ -44,22 +46,37 @@ export default function AddAlarm({ navigation }) {
     console.log(t);
 };
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
+
 const scheduleNotification = async () => {
-    const content = {
-      title: '알람',
-      body: '알람이 울립니다!',
-      sound: 'test.m4a',
-    };
+  // const soundObject = new Asset.fromModule(require('../../assets/test.wav'));
+  // await soundObject.downloadAsync(); // 소리 파일 다운로드
 
-    let after5Sec = new Date();
-    after5Sec.setSeconds(after5Sec.getSeconds() + 5);
-    const trigger = new Date(after5Sec); // 5초 뒤 알람이 울림.
-    // const trigger = new Date(selectedTime);
+  // // 사용자 지정 소리 파일 설정
+  // const sound = soundObject.localUri;
+  const content = {
+    title: '알람이 울려요!',
+    body: text,
+    sound: true,
+    vibrate: true,
+    color: "#6D61FF"
+  };
 
-    await Notifications.scheduleNotificationAsync({
-      content,
-      trigger,
-    });
+  let after5Sec = new Date();
+  after5Sec.setSeconds(after5Sec.getSeconds() + 5);
+  const trigger = new Date(after5Sec); // 5초 뒤 알람이 울림.
+  // const trigger = new Date(selectedTime);
+
+  await Notifications.scheduleNotificationAsync({
+    content,
+    trigger,
+  });
 };
   return (
     <View style={styles.container}>
@@ -72,7 +89,10 @@ const scheduleNotification = async () => {
         </ListView>
         <ListView gap={26}>
           <Text>레이블</Text>
-          <TextInput placeholder="알람 레이블을 입력하세요" maxLength={30} width={200}></TextInput>
+          <TextInput  
+            onChangeText={newText => setText(newText)}
+            defaultValue={text}
+            placeholder="알람 레이블을 입력하세요" maxLength={30} width={200}/>
         </ListView>
         <ListView gap={26}>
           <Text>사운드 설정</Text>

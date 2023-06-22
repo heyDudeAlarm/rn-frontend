@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Text, View, ToastAndroid } from 'react-native';
+import { StyleSheet, Button, Text, View, ToastAndroid, TouchableOpacity, Image } from 'react-native';
 import { Audio } from 'expo-av';
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
@@ -23,7 +23,6 @@ export default function Record({navigation}){
 
 async function uploadAudio(){
   const formData = new FormData();
-  // formData.append('file', convertFileToBlob(uri), 'file.mp3');
   formData.append('file', {
     uri: uri,
     type: 'audio/x-m4a', // m4a 오디오 파일의 MIME 타입
@@ -38,13 +37,15 @@ async function uploadAudio(){
 
   axios({
     method: "post",
-    // url: `http://10.0.2.2:8082/upload/audio/${userID}`,
-    // url: `http://127.0.0.1:8082/upload/audio/${userID}`,
-    url: `http://10.96.123.85:8082/upload/audio/${userID}`,
+    // url: `http://10.0.2.2:8082/audio/upload/${userID}`,
+    // url: `http://127.0.0.1:8082/audio/upload`,
+    // url: `http://10.96.123.85:8082/audio/upload/${userID}`,
+    // url: `http://localhost:8082/audio/upload/${userID}`,
+    url: `http://13.48.25.201:8082/audio/upload?${userID}`,
     mode: "cors",
     headers: {
       'Content-Type': 'multipart/form-data',
-      // 'Accept': 'application/json'
+      'Accept': 'application/json'
     },
     data: formData,
   })
@@ -104,6 +105,28 @@ async function stopRecording() {
     }
   };
 
+
+  async function downloadAudio(){
+    const filename='audio_4'
+    axios({
+      method: "post",
+      // url: `http://localhost:8082/audio/download?filename=${filename}`,
+      url: `http://13.48.25.201:8082/audio/download?filename=audio_4`,
+      mode: "cors",
+      headers: {
+        'Content-Type': 'audio/mp3',
+        // 'Accept': 'application/json'
+      },
+    })
+    .then(res => {
+      ToastAndroid.show("오디오 파일 다운로드 ㄱ", ToastAndroid.SHORT)
+      console.log(res);
+    }).catch(err => {
+      ToastAndroid.show("실패하였습니다", ToastAndroid.SHORT)
+      console.log(err);
+    })
+  }
+
   function getDurationFormatted(millis) { //녹음시간 구하기
     const minutes = millis / 1000 / 60;
     const minutesDisplay = Math.floor(minutes);
@@ -113,15 +136,60 @@ async function stopRecording() {
   }
 
   return (
-    <View>
-      {recording ? (
-        <Button title="녹음 중지" onPress={stopRecording} />
-      ) : (
-        <Button title="녹음 시작" onPress={startRecording} />
-      )}
+    <View style={styles.container}>
+      <View style={{display: 'flex', flexDirection:'row', alignItems: 'center', gap: 50}}>
+        {recording ? (
+          <TouchableOpacity
+          onPress={stopRecording}>
+          <Image
+            style={{
+              width: 100,
+              height: 100,
+              overflow: 'hidden',
+            }}
+            source={require('../../assets/startRecordBtn.png')}
+          />
+        </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+          onPress={startRecording}>
+          <Image
+            style={{
+              width: 100,
+              height: 100,
+              overflow: 'hidden',
+            }}
+            source={require('../../assets/recordBtn.png')}
+          />
+        </TouchableOpacity>
+        )}
+        {uri && <TouchableOpacity
+          onPress={playRecording}>
+          <Image
+            style={{
+              width: 50,
+              height: 50,
+              overflow: 'hidden',
+            }}
+            source={require('../../assets/playBtn.png')}
+          />
+        </TouchableOpacity>}
+      </View>
+      {uri && <Text style={{fontSize: 30}}>녹음시간: {duration}</Text>}
       <Button title="오디오 upload" onPress={uploadAudio} />
-      {uri && <Button title="녹음 재생" onPress={playRecording} />}
-      {uri && <Text>녹음시간: {duration}</Text>}
+      <Button title="오디오 download" onPress={downloadAudio} />
+      <Text style={{color: 'red'}}>오디오 업로드, 다운로드 부분에서 오류가 있습니다! 양해부탁드립니다</Text>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    rowGap: 40,
+  },
+})

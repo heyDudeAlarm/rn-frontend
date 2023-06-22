@@ -17,7 +17,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width; // 스크린가로사이즈
 
 export default function Signup({ navigation }) {
   // node data post요청
-  const [data, setData] = useState(null);
+  const [data, setData] = useState('');
   // useEffect(() => {
   //   axios
   //     .get(`http://10.96.123.85:8080/auth/login`)

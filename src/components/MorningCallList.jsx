@@ -29,8 +29,8 @@ const CustomRow = ({ time, label, activate }) => {
         }}
         active={activate}
         disabled={false}
-        width={15}
-        radius={12}
+        width={17}
+        radius={8}
         onValueChange={toggleSwitch}
       />
 
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: windowWidth - 48,
-    marginHorizontal: 12,
+    marginHorizontal: 10,
     height: 85,
     flexDirection: "row",
     alignItems: "center",

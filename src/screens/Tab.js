@@ -11,6 +11,9 @@ import RecordListScreen from "./Record/RecordListScreen";
 import Profile from "../screens/Profile";
 import Friends from "./Friends/Friends";
 import AddAlarm from "./AddAlarm";
+import MorningCall from "../screens/MorningCall";
+// import * as Notifications from 'expo-notifications';
+// const token = (await Notifications.getDevicePushTokenAsync()).data;
 
 const Tab = createBottomTabNavigator();
 const Stack = createNavigationContainerRef();
@@ -24,8 +27,8 @@ const IconOcations = ({ name, size, color }) => {
 };
 
 const TabNavigation = ({ navigation, route }) => {
-  // const userdata = JSON.stringify(route.params.userdata);
-  // ToastAndroid.show(userdata, ToastAndroid.SHORT)
+  // const userdata = route.params.userdata;
+  // console.log(token);
   return (
     <Tab.Navigator
       initialRouteName="Alarm"
@@ -40,9 +43,10 @@ const TabNavigation = ({ navigation, route }) => {
         }}
       />
       <Tab.Screen
-        name="Record"
+        name="MorningCall"
         // component={RecordListScreen}
-        children={()=><RecordListScreen toRecord={()=>{navigation.navigate("Record")}}/>}
+        children={()=><MorningCall toRecord={()=>{navigation.navigate("Record")}} toAskrecord={()=>{navigation.navigate("AskRecord")}}/>}
+        // component={MorningCall}
         options={{
           tabBarIcon: (props) =>
             TabIcon({ ...props, name: "microphone-outline" }),
@@ -80,7 +84,9 @@ const TabNavigation = ({ navigation, route }) => {
       />
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        // component={Profile}
+        // children={()=><Profile userdata={userdata || "go"}/>}
+        children={()=><Profile />}
         options={{
           tabBarIcon: (props) => IconOcations({ ...props, name: "home" }),
           headerShown: false,

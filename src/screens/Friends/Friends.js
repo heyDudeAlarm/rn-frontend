@@ -10,26 +10,8 @@ export default function Friends(props) {
     return [
       {
         key: 1,
-        name: "홍길동",
+        name: "친구1",
         message: "김씨요.",
-        profile_img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-      },
-      {
-        key: 2,
-        name: "홍길동",
-        message: "오늘은 진짜 expo키고 초심지킨다",
-        profile_img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-      },
-      {
-        key: 3,
-        name: "하진",
-        message: "김씨요.",
-        profile_img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-      },
-      {
-        key: 4,
-        name: "홍길동",
-        message: "오늘은 진짜 프로젝트 시작한다",
         profile_img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
       },
     ];
@@ -47,7 +29,7 @@ export default function Friends(props) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.explain}>친구 목록</Text>
+        <Text style={styles.title}>친구 목록</Text>
       </View>
       <View style={styles.alarms}>
         <FriendsList 
@@ -64,11 +46,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
+    backgroundColor: '#fff',
   },
   header: {
     flex: 1.5,
-    justifyContent: "flex-end",
-    padding: 18,
+    justifyContent: "center",
+    paddingLeft: 18,
     marginBottom: 5,
   },
   title: {
