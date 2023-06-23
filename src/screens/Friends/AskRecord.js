@@ -71,14 +71,16 @@ useEffect(() => {
     <View style={styles.background}>
         <View style={styles.container}>
             <Image style={styles.profile} />
-            <Text style={styles.title}>친구2님에게</Text>
+            <Text style={styles.title}>하진님</Text>
             <TextInput 
               onChangeText={newText => setText(newText)}
-              style={styles.content} placeholder="일어나 친구야!! hey dude" maxLength={30}/>
+              style={styles.content} placeholder="알람 벨소리 녹음 요청과 함께 보낼 메시지 입력!" maxLength={30}/>
         </View>
         <View style={styles.bottom}>
         <SendBtn onPress={async () => {
-          await sendPushNotification('ExponentPushToken[2zU2WrCOFkCvQfxXnSTX9k]');
+          //JSON 에서 유저 데이터 가져오기
+          //
+          await sendPushNotification('토큰값');
         }}/>
         </View>
     </View>

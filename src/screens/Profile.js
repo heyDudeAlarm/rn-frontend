@@ -27,7 +27,7 @@ function MyPage(props) {
           <Image 
             src={'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'}
             style={styles.profile}/>
-          <Text style={styles.username} onPress={getStorage}>친구1</Text>
+          <Text style={styles.username} onPress={getStorage}>박선주님</Text>
           <Text style={styles.email}></Text>
           {/* <Text style={styles.stateMess}>마이페이지 입니다~~~</Text> */}
         </View>
